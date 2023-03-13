@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Search = ({ getSearch, setSearch }) => {
+const Search = ({ handleSearch }) => {
 
     const [inputValue, setInputValue] = useState('')
 
@@ -10,8 +10,7 @@ const Search = ({ getSearch, setSearch }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        setSearch(inputValue)
-        getSearch(inputValue)
+        handleSearch(inputValue)
     }
 
     return (

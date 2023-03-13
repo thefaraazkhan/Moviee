@@ -1,20 +1,19 @@
 import './App.css'
-import Nav from './components/Nav'
-
-import MovieList from './components/MovieList'
+import { BrowserRouter } from "react-router-dom"
+import Home from './components/Home'
+import MovieDetails from './components/MovieDetails'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 function App() {
   return (
     <>
-      <div className="min-h-screen bg-red-400">
-        <Nav />
-        <div className='my-5'>
-          <MovieList />
-        </div>
-        <h2 className="text-center text-4xl font-bold text-blue-900">
-          TailwindCSS + React
-        </h2>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movie/:imdbID" element={<MovieDetails />} />
+        </Routes>
+      </BrowserRouter>
+
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Search from './Search'
 import MovieCard from "./MovieCard"
+import { Link } from 'react-router-dom'
 
 const MovieList = () => {
     const [movies, setMovie] = useState([])
@@ -8,12 +9,10 @@ const MovieList = () => {
 
     const API_URL: string = 'http://www.omdbapi.com/?apikey=57108933'
 
-    const getSearch = async (searchTerm) => {
-        console.log(searchTerm)
-        // const searchedMovie = searchTerm
-        // setSearch(searchedMovie)
-        console.log(search)
-        // await getMovies(search)
+    const handleSearch = (searchTerm) => {
+        setSearch(searchTerm)
+        console.log("This is the one:", search)
+
     }
 
     const getMovies = async (title: string) => {
@@ -22,26 +21,29 @@ const MovieList = () => {
             const jsonData = await response.json()
             const movieRes = jsonData.Search
             setMovie(movieRes)
-            console.log(movieRes)
+            console.log("The Result:", movieRes)
             // return movies
         } catch {
             console.error("Oh no Error")
         }
     }
+    useEffect(() => {
+        getMovies(search)
+    }, [search])
 
-    // useEffect(() => {
-    //     getMovies("Harry Potter")
-    // }, [])
 
     return (
         <>
-            <Search getSearch={getSearch} setSearch={setSearch} />
-
+            <Search handleSearch={handleSearch} />
             {movies?.length > 0
                 ? (
                     <div className='flex flex-wrap items-center justify-center w-75 sm:w-100 pl-5 px-6 mb-5 my-5'>
                         {movies.map((movie) => (
-                            < MovieCard movie={movie} />
+                            <div key={movie.imdbID}>
+                                <Link to={"/movie/" + movie.imdbID}>
+                                    < MovieCard movie={movie} />
+                                </Link>
+                            </div>
                         ))}
                     </div>
                 ) : (

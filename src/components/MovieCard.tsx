@@ -1,3 +1,5 @@
+
+
 const MovieCard = ({ movie: { imdbID, Year, Poster, Title, Type } }) => {
     // console.log(movie)
     return (
@@ -10,6 +12,8 @@ const MovieCard = ({ movie: { imdbID, Year, Poster, Title, Type } }) => {
                 <p className="text-gray-700 text-base">
                     {Year} - {Type}
                 </p>
+
+
             </div>
         </div>
     )
