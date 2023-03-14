@@ -10,7 +10,7 @@ const MovieDetails = () => {
 
     const getMovieData = async (imdbID) => {
         console.log(imdbID)
-        const sample = await fetch(`${API_URL}&i={imdbID}&plot=full}`)
+        const sample = await fetch(`${API_URL}&i=${imdbID}&plot=full}`)
         const movieRes = await sample.json()
         console.log("Movie plot:", movieRes)
         setMovieData(movieRes)
@@ -18,7 +18,7 @@ const MovieDetails = () => {
 
     useEffect(() => {
         getMovieData(imdbID)
-    }, [movieData])
+    }, [])
 
     return (
         <div>
@@ -33,6 +33,9 @@ const MovieDetails = () => {
                         Type: {movieData.Type}
                     </p>
                     <div className="w-50">
+                        <p className="w-[200] text-gray-900 text-xl">
+                            Ratings: {movieData.imdbRating}
+                        </p>
                         <p className="w-[200] text-gray-900 text-xl">
                             Plot: {movieData.Plot}
                         </p>

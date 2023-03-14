@@ -8,7 +8,7 @@ const Home = () => {
             <div className='my-5'>
                 <MovieList />
             </div>
-            <h2 className="text-center text-4xl font-bold text-blue-900">
+            <h2 className="text-center text-4xl font-bold text-blue-900 static bottom-0">
                 Footer
             </h2>
         </div>

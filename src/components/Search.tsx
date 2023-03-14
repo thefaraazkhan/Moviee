@@ -10,6 +10,7 @@ const Search = ({ handleSearch }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        if (inputValue === "") return
         handleSearch(inputValue)
     }
 

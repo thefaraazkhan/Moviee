@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Search from './Search'
-import MovieCard from "./MovieCard"
 import { Link } from 'react-router-dom'
 
 const MovieList = () => {
@@ -35,22 +34,30 @@ const MovieList = () => {
     return (
         <>
             <Search handleSearch={handleSearch} />
-            {movies?.length > 0
-                ? (
-                    <div className='flex flex-wrap items-center justify-center w-75 sm:w-100 pl-5 px-6 mb-5 my-5'>
-                        {movies.map((movie) => (
-                            <div key={movie.imdbID}>
-                                <Link to={"/movie/" + movie.imdbID}>
-                                    < MovieCard movie={movie} />
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="h-[560px] w-[310px] mx-2 my-2 px-5" >
-                        <h1 className='font-bold text-xl'>No movies found</h1>
-                    </div>
-                )}
+            {search === "" ? <div>Search a movie</div> :
+                movies?.length > 0
+                    ? (
+                        <div className='flex flex-wrap items-center justify-center w-75 sm:w-100 '>
+                            {movies.map((movie) => (
+                                <div className="h-[560px] w-[310px] border-solid border-2 border-white-900 rounded-md	 mx-2 my-2 " key={movie.imdbID}>
+                                    <Link to={"/movie/" + movie.imdbID}>
+                                        {/* < MovieCard movie={movie} /> */}
+                                        <img className="w-full h-[400px] object-contain" src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/400"} alt="404" />
+                                        <div className="px-6 py-4 h-50 w-50">
+                                            <div className="font-bold text-xl mb-2 h-[90px]">{movie.Title}</div>
+                                            <p className="text-gray-700 text-base">
+                                                {movie.Year} - {movie.Type}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="h-[560px] w-[310px] mx-2 my-2 px-5" >
+                            <h1 className='font-bold text-xl'>No movies found</h1>
+                        </div>
+                    )}
         </>
     )
 }
