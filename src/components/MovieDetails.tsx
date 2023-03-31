@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react'
 import Nav from './Nav'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { BsPlayFill } from "react-icons/bs"
 import { IoMdClose } from "react-icons/io"
 // const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false })
@@ -10,6 +10,9 @@ import ReactPlayer from 'react-player'
 
 
 const MovieDetails = () => {
+
+    const navigate = useNavigate()
+
     const [movieData, setMovieData] = useState<MovieData>({} as MovieData)
     const { movieID } = useParams()
     const [showPlayer, setShowPlayer] = useState(false)
@@ -47,11 +50,11 @@ const MovieDetails = () => {
         // Add other properties as needed
     }
 
-    const API_URL: string = `https://api.themoviedb.org/3/movie/${movieID}?api_key=4387b35dd6f6aeab282d1700da0316c5&append_to_response=videos`
+    const API_KEY = import.meta.env.VITE_TMBD_API_KEY
 
     const getMovieData = async () => {
         try {
-            const sample = await fetch(`${API_URL}`)
+            const sample = await fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${API_KEY}&append_to_response=videos`)
             const movieRes = await sample.json()
             setMovieData(movieRes)
             // console.log("Movie datra", movieData)
@@ -60,7 +63,6 @@ const MovieDetails = () => {
         }
     }
 
-    // https://api.themoviedb.org/3/movie/${movieID}?api_key=4387b35dd6f6aeab282d1700da0316c5&append_to_response=videos
 
     const formatDate = (date: string) => {
         const newDate = new Date(date)
@@ -87,6 +89,7 @@ const MovieDetails = () => {
     return (
         <div className='w-[100vw]'>
             <Nav />
+
             <div className='bg-[#04152d] sm:width-[100vw] min-h-[100vh]'>
                 {/* <div className="h-[460px] flex flex-row w-full border-solid border-2 border-sky-500 mx-2 my-2 px-5" key={movieData.id}>
                 <div className='sm:w-full md:w-50'>
@@ -117,10 +120,6 @@ const MovieDetails = () => {
                         className='object-cover object-center w-[100%] h-[100vh]'
                     />
                 </div>
-
-
-
-
 
                 {/* THis is here */}
 
@@ -161,6 +160,10 @@ const MovieDetails = () => {
                                 <div className="pt-14 space-y-2 pr-4">
                                     <div>OVERVIEW:</div>
                                     <div className="lg:line-clamp-4">{movieData?.overview}</div>
+                                </div>
+
+                                <div className="w-40 flex gap-2 items-center bg-white text-black px-4 py-2 mb-6 hover:bg-[#b4b4b4]">
+                                    <button onClick={() => navigate(-1)}>Go back</button>
                                 </div>
 
                                 <div
