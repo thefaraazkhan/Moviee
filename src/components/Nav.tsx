@@ -6,6 +6,10 @@ const Nav = () => {
             <Link to="/">
                 <h2 className=" pl-4 m-2 text-3xl font-bold text-[#04152d] cursor-pointer relative">Movieee</h2>
             </Link>
+
+            <Link to="/">
+                <h2 className=" pl-4 m-2 text-3xl font-bold text-[#04152d] cursor-pointer relative">Hi there</h2>
+            </Link>
             {/* <h2 className=" text-4xl font-bold text-blue-900">Login</h2> */}
         </div>
     )

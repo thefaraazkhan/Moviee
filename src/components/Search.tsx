@@ -30,16 +30,22 @@ const Search = ({ handleSearch }) => {
         //         Submit
         //     </button>
         // </form>
-        <div className="flex align-center w-[100%]">
+        <form className="flex align-center w-[100%]">
             <input
                 type="text"
                 className='w-[calc(100%-100px)] h-[50px] text-black bg-white border-0 outline-none rounded-[30px_0_0_30px] px-[15px] py-0 text-sm md:w-[calc(100%-150px)]'
                 placeholder="Search for a movie or tv show...."
                 onChange={handleChange}
-                onClick={handleSubmit}
+
             />
-            <button className='w-[100px] h-[50px] bg-[#555555] text-white border-0 outline-0 rounded-[0_30px_30px_0] text-base cursor-pointer '>Search</button>
-        </div>
+            <button
+                className='w-[100px] h-[50px] bg-[#555555] text-white border-0 outline-0 rounded-[0_30px_30px_0] text-base cursor-pointer '
+                onClick={handleSubmit}
+            >
+                Search
+            </button>
+
+        </form>
     )
 }
 
