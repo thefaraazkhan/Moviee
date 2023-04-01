@@ -8,8 +8,12 @@ import '@splidejs/react-splide/css'
 const Popular = () => {
     const [popular, setPopular] = useState([])
 
+    const API_KEY: string = import.meta.env.VITE_TMBD_API_KEY
+
+
     useEffect(() => {
         getPopular()
+        console.log("This is env:", import.meta.env.VITE_TMBD_API_KEY)
     }, [])
 
     const getPopular = async () => {
@@ -17,7 +21,7 @@ const Popular = () => {
         if (check) {
             setPopular(JSON.parse(check))
         } else {
-            const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=4387b35dd6f6aeab282d1700da0316c5`)
+            const popularRes = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`)
 
             const jsonData = await popularRes.json()
             const popularmovies = jsonData.results
