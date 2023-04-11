@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 type SearchProps = {
-    handleSearch: (e: React.FormEvent<HTMLFormElement>, searchTerm: string) => void
+    handleSearch: (searchTerm: string) => void
 }
 
 const Search = ({ handleSearch }: SearchProps) => {
