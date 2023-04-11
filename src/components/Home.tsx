@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import Nav from './Nav'
-// import MovieList from './MovieList'
 import { Link } from 'react-router-dom'
-import MovieList from './MovieList'
+// import MovieList from './MovieList'
 import Popular from './Popular'
 import { Splide, SplideSlide } from '@splidejs/react-splide'
 import '@splidejs/react-splide/css'
-import Search from './Search'
+// import Search from './Search'
 // if (process.env.NODE_ENV !== 'production') {
 //     require('dotenv').config()
 // }
@@ -16,13 +15,22 @@ const Home = () => {
     const [movies, setMovie] = useState([])
     const [searchedMovies, setSearchedMovies] = useState([])
     const [search, setSearch] = useState("")
-    const handleSearch = (e, searchTerm: string) => {
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>, searchTerm: string) => {
         e.preventDefault()
         setSearch(searchTerm)
         console.log("This is the one:", searchTerm)
     }
 
     const API_KEY = import.meta.env.VITE_TMBD_API_KEY
+
+    type Movie = {
+        id: number
+        title: string
+        name: string
+        media_type: string
+        poster_path: string | null
+        // Add other properties as needed
+    }
 
     const getMovies = async () => {
         try {
@@ -68,6 +76,7 @@ const Home = () => {
     useEffect(() => {
         const getMoviesRes = async () => {
             await getMovies()
+            console.log(movies)
         }
         getMoviesRes()
     }, [])
@@ -161,7 +170,7 @@ const Home = () => {
                                     },
                                 },
                             }}>
-                            {searchedMovies.map(movie => {
+                            {searchedMovies.map((movie: Movie) => {
                                 return (
                                     <SplideSlide key={movie.id}>
                                         <Link to={movie.media_type === "movie" ? `/movie/${movie.id}` : `/tv/${movie.id}`}>

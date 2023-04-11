@@ -10,6 +10,14 @@ const Popular = () => {
 
     const API_KEY: string = import.meta.env.VITE_TMBD_API_KEY
 
+    type Movie = {
+        id: number
+        title: string
+        name: string
+        media_type: string
+        poster_path: string | null
+        // Add other properties as needed
+    }
 
     useEffect(() => {
         getPopular()
@@ -28,7 +36,7 @@ const Popular = () => {
 
             localStorage.setItem("popular", JSON.stringify(popularmovies))
             setPopular(popularmovies)
-            console.log(popular[0])
+            // console.log(popular[0])
         }
     }
     return (
@@ -55,7 +63,7 @@ const Popular = () => {
                         },
                     },
                 }}>
-                {popular.map(movie => {
+                {popular.map((movie: Movie) => {
                     return (
                         <SplideSlide key={movie.id}>
                             <Link to={"/movie/" + movie.id}>

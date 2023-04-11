@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import Search from './Search'
 import { Link, useParams } from 'react-router-dom'
-import { Splide, SplideSlide } from "@splidejs/react-splide"
 import '@splidejs/splide/dist/css/splide.min.css'
-// import Popular from './Popular'
 import Nav from './Nav'
 
 const MovieList = () => {
@@ -12,13 +10,26 @@ const MovieList = () => {
     const { query } = useParams()
     const API_KEY = import.meta.env.VITE_TMBD_API_KEY
 
-    const [search, setSearch] = useState(query)
+    const [search, setSearch] = useState<string>(query || '')
 
     const handleSearch = (searchTerm: string) => {
         setSearch(searchTerm)
         console.log("This is the one:", searchTerm)
 
     }
+
+    type Movie = {
+        id: number
+        title: string
+        name: string
+        media_type: string
+        poster_path: string | null
+        // Add other properties as needed
+    }
+
+    // type Movies {
+    //     map: (movie: Movie) => JSX.Element
+    // }
 
 
     // useEffect(() => {
@@ -46,8 +57,9 @@ const MovieList = () => {
     //         const sample = await fetch(`https://api.themoviedb.org/3/movie/${movieData?.id}`) 
     //     }
     // }
+    type GetMoviesFunction = (title: string) => Promise<void>
 
-    const getMovies = async (title: string) => {
+    const getMovies: GetMoviesFunction = async (title: string) => {
         try {
             // const response = await fetch(`${API_URL}&s=${title}`)
             // const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${title}`)
@@ -89,13 +101,12 @@ const MovieList = () => {
                         <div className="w-full mx-2 my-2 pb-5" >
                             <h1 className='font-bold text-5xl text-white text-center'>"Search Results for {query}"</h1>
                         </div>
-                        {movies.map((movie) => (
+                        {movies.map((movie: Movie) => (
                             <div className="h-[560px] w-[310px] border-solid mx-2 my-2 " key={movie.id}>
                                 <Link to={movie.media_type === "movie" ? `/movie/${movie.id}` : `/tv/${movie.id}`}>
                                     <div className='flex flex-col text-slate-900 transition duration-500 hover:scale-105 relative group'>
                                         <img
                                             src={movie?.poster_path !== null ? `https://image.tmdb.org/t/p/original/${movie?.poster_path}` : "https://via.placeholder.com/310x465"}
-                                            alt={movie.title}
                                             className='rounded-md opacity-90 hover:opacity-10 max-w-[100%] max-h-[100%]'
                                         />
                                         {/* {movie?.profile_path && <img src={movie?.profile_path !== null ? `https://image.tmdb.org/t/p/w300/${movie?.profile_path}` : "https://via.placeholder.com/310x465"} alt={movie.title} className='rounded-md opacity-90 hover:opacity-10 ' />} */}

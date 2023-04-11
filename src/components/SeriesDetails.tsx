@@ -1,16 +1,50 @@
 import { useState, useEffect } from 'react'
 import Nav from './Nav'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { BsPlayFill } from "react-icons/bs"
 import { IoMdClose } from "react-icons/io"
 import ReactPlayer from 'react-player'
 
 const SeriesDetails = () => {
     const API_KEY = import.meta.env.VITE_TMBD_API_KEY
-    const [movieData, setMovieData] = useState({})
+    const [movieData, setMovieData] = useState<MovieData>({} as MovieData)
     const { seriesID } = useParams()
     const [showPlayer, setShowPlayer] = useState(false)
     const [trailer, setTrailer] = useState("")
+
+    type Genre = {
+        id: number
+        name: string
+    }
+
+    type VideoResult = {
+        key: string
+        site: string
+        type: string
+        id: string
+
+    }
+
+    type MovieData = {
+        id: number
+        title: string
+        poster_path: string
+        backdrop_path: string
+        release_date: string
+        overview: string
+        media_type: string
+        original_language: string
+        runtime: number
+        vote_average: number
+        genres: Genre[]
+        videos: {
+            results: VideoResult[]
+        }
+
+
+        // Add other properties as needed
+    }
+
 
     const API_URL: string = `https://api.themoviedb.org/3/tv/${seriesID}?api_key=${API_KEY}&append_to_response=videos`
 
@@ -23,10 +57,18 @@ const SeriesDetails = () => {
     }
 
     useEffect(() => {
-        const runGetMovieData = async () => {
-
+        const GetMovieData = async () => {
             await getMovieData()
             console.log("In movie useeffect", movieData)
+        }
+
+        GetMovieData()
+
+        // Move your logic that depends on updated movieData inside this useEffect
+    }, [])
+
+    useEffect(() => {
+        const runGetMovieData = async () => {
             const trailerIndex = await movieData?.videos?.results?.findIndex((res: any) => res.type === "Trailer")
             console.log('trailerIndex', trailerIndex)
             console.log('trailerIndex key', movieData?.videos?.results[trailerIndex || 0]?.key)
@@ -36,7 +78,7 @@ const SeriesDetails = () => {
         }
         runGetMovieData()
 
-    }, [])
+    }, [movieData])
 
     return (
         <div className='w-[100vw]'>

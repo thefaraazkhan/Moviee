@@ -1,14 +1,18 @@
 import { useState } from 'react'
 
-const Search = ({ handleSearch }) => {
+type SearchProps = {
+    handleSearch: (e: React.FormEvent<HTMLFormElement>, searchTerm: string) => void
+}
+
+const Search = ({ handleSearch }: SearchProps) => {
 
     const [inputValue, setInputValue] = useState('')
 
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value)
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (inputValue === "") return
         handleSearch(inputValue)
@@ -30,7 +34,7 @@ const Search = ({ handleSearch }) => {
         //         Submit
         //     </button>
         // </form>
-        <form className="flex align-center w-[100%]">
+        <form className="flex align-center w-[100%]" onSubmit={handleSubmit}>
             <input
                 type="text"
                 className='w-[calc(100%-100px)] h-[50px] text-black bg-white border-0 outline-none rounded-[30px_0_0_30px] px-[15px] py-0 text-sm md:w-[calc(100%-150px)]'
@@ -40,11 +44,9 @@ const Search = ({ handleSearch }) => {
             />
             <button
                 className='w-[100px] h-[50px] bg-[#555555] text-white border-0 outline-0 rounded-[0_30px_30px_0] text-base cursor-pointer '
-                onClick={handleSubmit}
             >
                 Search
             </button>
-
         </form>
     )
 }

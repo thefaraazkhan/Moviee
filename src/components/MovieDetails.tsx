@@ -35,6 +35,7 @@ const MovieDetails = () => {
         id: number
         title: string
         poster_path: string
+        backdrop_path: string
         release_date: string
         overview: string
         media_type: string
@@ -64,19 +65,28 @@ const MovieDetails = () => {
     }
 
 
-    const formatDate = (date: string) => {
-        const newDate = new Date(date)
-        const year = newDate.getFullYear()
-        return year
-    }
+    // const formatDate = (date: string) => {
+    //     const newDate = new Date(date)
+    //     const year = newDate.getFullYear()
+    //     return year
+    // }
+
+    useEffect(() => {
+        const GetMovieData = async () => {
+            await getMovieData()
+        }
+
+        GetMovieData()
+
+        // Move your logic that depends on updated movieData inside this useEffect
+    }, [])
 
     useEffect(() => {
         const runGetMovieData = async () => {
-
-            await getMovieData()
             console.log("In movie useeffect", movieData)
-            const trailerIndex = await movieData?.videos?.results?.findIndex((res: any) => res.type === "Trailer")
+            const trailerIndex = movieData?.videos?.results?.findIndex((res: any) => res.type === "Trailer")
             console.log('trailerIndex', trailerIndex)
+            console.log('trailerIndex not found')
             console.log('trailerIndex key', movieData?.videos?.results[trailerIndex || 0]?.key)
             const trailerURL = `https://www.youtube.com/watch?v=${movieData?.videos?.results[trailerIndex || 0]?.key}`
             console.log("This is ulr", trailerURL)
@@ -84,7 +94,7 @@ const MovieDetails = () => {
         }
         runGetMovieData()
 
-    }, [])
+    }, [movieData])
 
     return (
         <div className='w-[100vw]'>
